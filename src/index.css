@@ -419,8 +419,8 @@ i {
   font-weight: 700;
   border-radius: 8px;
   text-transform: uppercase;
-  border: 1px solid #2c734a;
-  background-color: #2c734a;
+  border: 1px solid rgb(43, 155, 180);
+  background-color: rgb(43, 155, 180);
   text-decoration: none;
 }
 
@@ -534,4 +534,9 @@ tr {
   color: white;
 }
 
-/* Thêm các lớp CSS khác cho các trạng thái khác nếu cần */
+.slider-image {
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px; */
+}

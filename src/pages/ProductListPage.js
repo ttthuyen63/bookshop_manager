@@ -530,20 +530,22 @@ export default function ProductListPage() {
                   />
                 </Col>
               </Row>
-              <Button
-                type="button"
-                className="btn btn-success mt-3"
-                onClick={handleSubmit}
-              >
-                <FontAwesomeIcon icon={faSave} /> Lưu thông tin
-              </Button>
-              <Button
-                type="button"
-                className="btn btn-danger mt-3 ml-3"
-                onClick={handleClose}
-              >
-                &times; Hủy
-              </Button>
+              <Row>
+                <Button
+                  type="button"
+                  className="btn btn-secondary mt-3"
+                  onClick={handleSubmit}
+                >
+                  <FontAwesomeIcon icon={faSave} /> Lưu thông tin
+                </Button>
+                <Button
+                  type="button"
+                  className="btn btn-secondary mt-3 ml-3"
+                  onClick={handleClose}
+                >
+                  &times; Hủy
+                </Button>
+              </Row>
             </form>
           </ModalBody>
         </Modal>
@@ -558,7 +560,8 @@ export default function ProductListPage() {
             <div className="content-header">
               <h5 className="content-account">
                 <Button
-                  className="btn-login btn-success"
+                  className="btn-login"
+                  style={{ backgroundColor: "rgb(43, 155, 180)" }}
                   onClick={() => {
                     dispatch(logout());
                     navigate("/");

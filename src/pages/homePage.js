@@ -16,7 +16,9 @@ import sidebar_menu from "../constants/sidebar-menu";
 import Chart from "react-apexcharts";
 import { currencyFormat } from "../ultils/constant";
 import StatusBill from "../components/StatusBill";
-
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 export default function HomePage() {
   // const [first, setfirst] = useState(second);
   const [moneyState, setmoneyState] = useState(null);
@@ -33,7 +35,7 @@ export default function HomePage() {
   }, []);
   const getorderApi = async () => {
     try {
-      const response = await customAxios.get("/Product/GetBill/getAllBill.php");
+      const response = await customAxios.get("/Book/GetBill/getAllBill.php");
       setorderState(response?.data?.result);
       console.log("orderState", orderState);
     } catch (error) {
@@ -51,48 +53,56 @@ export default function HomePage() {
   //   }
   // };
 
-  const doanhthu = moneyState?.map((item) => {
-    return item?.money;
-  });
-  console.log("doanhthu", doanhthu);
-  const calculateSum = () => {
-    let sum = 0;
-    doanhthu?.forEach((number) => {
-      sum += number;
-    });
-    return sum;
-  };
-  console.log("Tổng", calculateSum(doanhthu));
+  // const doanhthu = moneyState?.map((item) => {
+  //   return item?.money;
+  // });
+  // console.log("doanhthu", doanhthu);
+  // const calculateSum = () => {
+  //   let sum = 0;
+  //   doanhthu?.forEach((number) => {
+  //     sum += number;
+  //   });
+  //   return sum;
+  // };
+  // console.log("Tổng", calculateSum(doanhthu));
 
-  const [state, setState] = useState({
-    options: {
-      colors: ["#E91E63", "#FF9800"],
-      chart: {
-        id: "basic-bar",
-      },
-      xaxis: {
-        categories: [
-          "Tháng 2",
-          "Tháng 3",
-          "Tháng 4",
-          "Tháng 5",
-          "Tháng 6",
-          "Tháng 7",
-        ],
-      },
-    },
-    series: [
-      {
-        name: "Doanh thu",
-        data: doanhthu,
-        // data: [30, 40, 45, 50, 49],
-      },
-      // {
-      //   name: "People Died",
-      //   data: [3, 60, 35, 80, 49, 70, 20, 81],
-      // },
-    ],
-  });
+  // const [state, setState] = useState({
+  //   options: {
+  //     colors: ["#E91E63", "#FF9800"],
+  //     chart: {
+  //       id: "basic-bar",
+  //     },
+  //     xaxis: {
+  //       categories: [
+  //         "Tháng 2",
+  //         "Tháng 3",
+  //         "Tháng 4",
+  //         "Tháng 5",
+  //         "Tháng 6",
+  //         "Tháng 7",
+  //       ],
+  //     },
+  //   },
+  //   series: [
+  //     {
+  //       name: "Doanh thu",
+  //       data: doanhthu,
+  //       // data: [30, 40, 45, 50, 49],
+  //     },
+  //     // {
+  //     //   name: "People Died",
+  //     //   data: [3, 60, 35, 80, 49, 70, 20, 81],
+  //     // },
+  //   ],
+  // });
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+  };
 
   const latestOrders = orderState?.slice(-5);
   console.log("lastest...", latestOrders);
@@ -107,7 +117,8 @@ export default function HomePage() {
           <div className="content-header">
             <h5 className="content-account">
               <Button
-                className="btn-login btn-success"
+                className="btn-login"
+                style={{ backgroundColor: "rgb(43, 155, 180)" }}
                 onClick={() => {
                   dispatch(logout());
                   navigate("/");
@@ -118,12 +129,35 @@ export default function HomePage() {
             </h5>
           </div>
 
-          <div style={{ textAlign: "center" }}>
+          <div style={{ marginLeft: "200px" }} className="slider-image">
             {/* <img
               // src={require("../assets/images/e2.png")}
               src={require("../Logo-Hoc-Vien-Ky-Thuat-Mat-Ma-ACTVN-1.png")}
               style={{ width: "200px" }}
             /> */}
+            <Slider {...settings}>
+              <div>
+                <img
+                  src={require("../image/banner4.jpg")}
+                  alt="Image 1"
+                  style={{ width: "900px", height: "200px" }}
+                />
+              </div>
+              <div>
+                <img
+                  src={require("../image/banner2.jpg")}
+                  alt="Image 2"
+                  style={{ width: "900px", height: "200px" }}
+                />
+              </div>
+              <div>
+                <img
+                  src={require("../image/banner5.jpg")}
+                  alt="Image 3"
+                  style={{ width: "900px", height: "200px" }}
+                />
+              </div>
+            </Slider>
           </div>
           <h1 className="" style={{ textAlign: "center" }}>
             Thống kê

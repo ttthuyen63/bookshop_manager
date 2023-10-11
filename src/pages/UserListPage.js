@@ -247,7 +247,8 @@ export default function UserListPage() {
             <div className="content-header">
               <h5 className="content-account">
                 <Button
-                  className="btn-login btn-success"
+                  className="btn-login"
+                  style={{ backgroundColor: "rgb(43, 155, 180)" }}
                   onClick={() => {
                     dispatch(logout());
                     navigate("/");
