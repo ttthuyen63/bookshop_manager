@@ -15,39 +15,23 @@ import {
 } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { customAxios } from "../config/api";
-import HomePage from "./homePage";
 import { logout } from "../redux/userSlice";
 import { useMemo } from "react";
 import moment from "moment";
 import { currencyFormat } from "../ultils/constant";
 import SideBar from "../components/Sidebar";
 import sidebar_menu from "../constants/sidebar-menu";
-import Select from "react-select";
-import { Uploader } from "uploader";
-import { useRef } from "react";
-import FileResizer from "react-image-file-resizer";
 import { addListuser } from "../redux/roomSlice";
 
 export default function UserListPage() {
   const [userState, setuserState] = useState(null);
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState(userState);
-  const [deleteId, setdeleteId] = useState("");
   const [deleteCode, setdeleteCode] = useState("");
   const [filteruser, setfilteruser] = useState();
   const [showDel, setshowDel] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [detail, setDetail] = useState([]);
-  const [showDetail, setShowDetail] = useState(false);
-  const [modal, setmodal] = useState(false);
-  const [hotelState, sethotelState] = useState(null);
-  const [hotelNameState, sethotelNameState] = useState(null);
-  const [hotelNameData, sethotelNameData] = useState(null);
-  const [phanloai, setphanloai] = useState();
-  const [phanloaiData, setphanloaiData] = useState();
-
-  console.log("userState...", userState);
   const userList = useSelector((state) => state.userReducer);
 
   const queryParams = new URLSearchParams(window.location.search);
@@ -100,10 +84,6 @@ export default function UserListPage() {
     setshowDel(false);
   };
 
-  const goToDetail = (code) => {
-    navigate("/userDetail/" + code);
-  };
-
   const handleChangeSearch = (e) => {
     const query = e.target.value;
     var searchList = [...userState];
@@ -132,51 +112,6 @@ export default function UserListPage() {
   }
 
   const navigate = useNavigate();
-
-  const uploader = new Uploader({
-    // Get production API keys from Upload.io
-    apiKey: "free",
-  });
-
-  const spanStyle = {
-    padding: "20px",
-    background: "#efefef",
-    color: "#000000",
-  };
-
-  const divStyle = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundSize: "cover",
-    height: "400px",
-  };
-
-  const handleChangeHotelName = (e) => {
-    sethotelNameData(e);
-  };
-
-  const handleChangePhanLoai = (e) => {
-    setphanloaiData(e);
-  };
-
-  const [randomNumber, setRandomNumber] = useState(null);
-  const [generatedNumbers, setGeneratedNumbers] = useState([]);
-
-  const generateRandomNumber = () => {
-    let newNumber;
-    do {
-      newNumber = Math.floor(Math.random() * 100) + 1; // Sinh số ngẫu nhiên từ 1 đến 100
-    } while (generatedNumbers.includes(newNumber)); // Kiểm tra tính duy nhất của số mới
-
-    setRandomNumber(newNumber);
-    setGeneratedNumbers([...generatedNumbers, newNumber]);
-  };
-
-  const handleAdd = () => {
-    setmodal(true);
-    generateRandomNumber();
-  };
 
   return (
     <div>
@@ -284,7 +219,10 @@ export default function UserListPage() {
               </form>
             </div> */}
             <div className="control-hotel">
-              <div className="mt-3 control-hotel-table shadow-sm p-3 mb-5 bg-white rounded">
+              <div
+                className="mt-3 control-hotel-table shadow-sm p-3 mb-5 bg-white rounded"
+                style={{ margin: "0px 10px" }}
+              >
                 <div className="item-header">
                   <h2>Danh sách người dùng</h2>
                   <div className="item-search">

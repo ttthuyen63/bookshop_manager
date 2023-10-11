@@ -9,79 +9,87 @@ import { customAxios } from "../config/api";
 import { useEffect, useState } from "react";
 import { currencyFormat } from "../ultils/constant";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addListproduct } from "../redux/productSlice";
+import { addListuser } from "../redux/roomSlice";
 const Widget = ({ type, amount }) => {
   let data;
-  const [roomStateLength, setroomStateLength] = useState(null);
-  const [bookingLength, setbookingLength] = useState(null);
+  const [productState, setproductState] = useState(null);
+  const [userState, setuserState] = useState(null);
+  const [orderState, setorderState] = useState(null);
   const [bookingRoomLength, setbookingRoomLength] = useState(null);
   const [revenueState, setrevenueState] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getroomApi();
+    getproductApi();
   }, []);
-  const getroomApi = async () => {
+  const getproductApi = async () => {
     try {
-      const res = await customAxios.get("/room/list");
-      setroomStateLength(res?.data);
+      const res = await customAxios.get("/Book/GetProductList/read.php");
+      dispatch(addListproduct(res?.data));
+      setproductState(res?.data?.data);
     } catch (error) {
       console.log("Lỗi", error);
     }
   };
 
   useEffect(() => {
-    getbookingApi();
+    getuserApi();
   }, []);
-  const getbookingApi = async () => {
+  const getuserApi = async () => {
     try {
-      const res = await customAxios.get("/booking/list");
-      setbookingLength(res?.data);
+      const response = await customAxios.get("/Book/GetUserList/ListUser.php", {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+      dispatch(addListuser(response?.data));
+      setuserState(response?.data?.data);
+      console.log(userState);
     } catch (error) {
-      console.log("Lỗi", error);
+      console.log(error);
     }
   };
-  console.log("booking...", bookingLength);
 
   useEffect(() => {
-    getbookingRoomApi();
+    getorderApi();
   }, []);
-  const getbookingRoomApi = async () => {
+  const getorderApi = async () => {
     try {
-      const res = await customAxios.get("/room/roomstatus?status=true");
-      setbookingRoomLength(res?.data);
+      const response = await customAxios.get("/Book/GetBill/getAllBill.php");
+      setorderState(response?.data?.result);
+      console.log("orderState", orderState);
     } catch (error) {
-      console.log("Lỗi", error);
+      console.error(error);
     }
   };
-  console.log("bookingRoom...", bookingRoomLength);
 
-  // http://localhost:8080/room/roomstatus?status=true
+  // useEffect(() => {
+  //   getrevenueApi();
+  // }, []);
+  // const getrevenueApi = async () => {
+  //   try {
+  //     const res = await customAxios.get("/booking/month");
+  //     setrevenueState(res?.data);
+  //   } catch (error) {
+  //     console.log("Lỗi", error);
+  //   }
+  // };
+  // console.log("doanhthu", revenueState);
+  // const doanhthu = revenueState?.map((item) => {
+  //   return item?.money;
+  // });
+  // const calculateSum = () => {
+  //   let sum = 0;
+  //   doanhthu?.forEach((number) => {
+  //     sum += number;
+  //   });
+  //   return sum;
+  // };
 
-  useEffect(() => {
-    getrevenueApi();
-  }, []);
-  const getrevenueApi = async () => {
-    try {
-      const res = await customAxios.get("/booking/month");
-      setrevenueState(res?.data);
-    } catch (error) {
-      console.log("Lỗi", error);
-    }
-  };
-  console.log("doanhthu", revenueState);
-  const doanhthu = revenueState?.map((item) => {
-    return item?.money;
-  });
-  const calculateSum = () => {
-    let sum = 0;
-    doanhthu?.forEach((number) => {
-      sum += number;
-    });
-    return sum;
-  };
-  console.log("revenue...", calculateSum(doanhthu));
-
-  const sumdoanhthu = currencyFormat(calculateSum(doanhthu));
-  console.log("sumdoanhthu", sumdoanhthu);
+  // const sumdoanhthu = currencyFormat(calculateSum(doanhthu));
+  // console.log("sumdoanhthu", sumdoanhthu);
 
   // const amountRevenues = revenueState?.data.reduce((accumulator, object) => {
   //   return accumulator + object.totalRevenue;
@@ -89,10 +97,12 @@ const Widget = ({ type, amount }) => {
   // console.log("reve..", amountRevenues);
   // const sumRevenues = currencyFormat(amountRevenues);
 
+  const sumdoanhthu = currencyFormat("4850000");
+
   switch (type) {
     case "product":
       data = {
-        amount: roomStateLength?.length,
+        amount: productState?.length,
         title: "SẢN PHẨM",
         isMoney: false,
         // link: "See all rooms",
@@ -109,7 +119,7 @@ const Widget = ({ type, amount }) => {
       break;
     case "order":
       data = {
-        amount: bookingLength?.length,
+        amount: orderState?.length,
         title: "ĐƠN ĐẶT",
         isMoney: false,
         // link: "View all orders",
@@ -140,7 +150,7 @@ const Widget = ({ type, amount }) => {
       break;
     case "balance":
       data = {
-        amount: bookingRoomLength?.length,
+        amount: userState?.length,
         title: "NGƯỜI DÙNG",
         // isMoney: true,
         // link: "See details",

@@ -37,7 +37,6 @@ export default function HomePage() {
     try {
       const response = await customAxios.get("/Book/GetBill/getAllBill.php");
       setorderState(response?.data?.result);
-      console.log("orderState", orderState);
     } catch (error) {
       console.error(error);
     }
@@ -53,51 +52,9 @@ export default function HomePage() {
   //   }
   // };
 
-  // const doanhthu = moneyState?.map((item) => {
-  //   return item?.money;
-  // });
-  // console.log("doanhthu", doanhthu);
-  // const calculateSum = () => {
-  //   let sum = 0;
-  //   doanhthu?.forEach((number) => {
-  //     sum += number;
-  //   });
-  //   return sum;
-  // };
-  // console.log("Tổng", calculateSum(doanhthu));
-
-  // const [state, setState] = useState({
-  //   options: {
-  //     colors: ["#E91E63", "#FF9800"],
-  //     chart: {
-  //       id: "basic-bar",
-  //     },
-  //     xaxis: {
-  //       categories: [
-  //         "Tháng 2",
-  //         "Tháng 3",
-  //         "Tháng 4",
-  //         "Tháng 5",
-  //         "Tháng 6",
-  //         "Tháng 7",
-  //       ],
-  //     },
-  //   },
-  //   series: [
-  //     {
-  //       name: "Doanh thu",
-  //       data: doanhthu,
-  //       // data: [30, 40, 45, 50, 49],
-  //     },
-  //     // {
-  //     //   name: "People Died",
-  //     //   data: [3, 60, 35, 80, 49, 70, 20, 81],
-  //     // },
-  //   ],
-  // });
   const settings = {
     infinite: true,
-    speed: 500,
+    speed: 200,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
@@ -105,7 +62,6 @@ export default function HomePage() {
   };
 
   const latestOrders = orderState?.slice(-5);
-  console.log("lastest...", latestOrders);
   return (
     <div className="row">
       <div className="col-sm-2" style={{ padding: 0 }}>

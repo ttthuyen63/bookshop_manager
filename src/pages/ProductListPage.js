@@ -10,7 +10,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { customAxios } from "../config/api";
 import { addListproduct } from "../redux/productSlice";
-import HomePage from "./homePage";
 import { logout } from "../redux/userSlice";
 import { useMemo } from "react";
 import moment from "moment";
@@ -28,10 +27,7 @@ import {
   Row,
   ModalTitle,
 } from "reactstrap";
-import { Uploader } from "uploader";
-import { UploadButton } from "react-uploader";
 import "react-slideshow-image/dist/styles.css";
-import { Slide } from "react-slideshow-image";
 import { useRef } from "react";
 import FileResizer from "react-image-file-resizer";
 import axios from "axios";
@@ -73,7 +69,6 @@ export default function ProductListPage() {
       console.log("Lỗi", error);
     }
   };
-  console.log("product,,,,", productState);
 
   const options = [
     { value: 1, label: "Sách văn học" },
@@ -106,7 +101,6 @@ export default function ProductListPage() {
       setSelectedImage(imageUrl); // Cập nhật state để hiển thị hình ảnh đã chọn
     }
   };
-  console.log("selectedOption", selectedOption);
 
   const handleEdit = async (item) => {
     try {
@@ -125,11 +119,9 @@ export default function ProductListPage() {
   useEffect(() => {
     if (editProductData && !isLoadingDetail) {
       // Do something with editProductData here
-      console.log("editProductData updated", editProductData);
       // Khai báo các xử lý cần thực hiện sau khi cập nhật editProductData ở đây
     }
   }, [editProductData, isLoadingDetail]);
-  console.log("editProductData", editProductData);
 
   const handleClose = () => {
     setshowDel(false);
@@ -156,14 +148,12 @@ export default function ProductListPage() {
   const handleChangeSearch = (e) => {
     const query = e.target.value;
     var searchList = [...productState];
-    console.log("seacrh", searchList);
 
     searchList = searchList?.filter((item) => {
       return item?.TENSP.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     });
     setSearch(searchList);
     setShow(true);
-    console.log("seacrh", searchList);
   };
   function getFilterList() {
     if (!filterproduct) {
@@ -440,20 +430,32 @@ export default function ProductListPage() {
                     </Row>
                   </Col>
                 </Row>
-                <Button
-                  type="button"
-                  className="btn btn-success mt-3"
-                  onClick={() => handleSubmitEdit(editProductData?.MASP)}
+                <Row
+                  style={{ display: "flex", justifyContent: "space-around" }}
                 >
-                  <FontAwesomeIcon icon={faSave} /> Lưu thông tin
-                </Button>
-                <Button
-                  type="button"
-                  className="btn btn-danger mt-3 ml-3"
-                  onClick={handleClose}
-                >
-                  &times; Hủy
-                </Button>
+                  <Button
+                    type="button"
+                    className="btn  mt-3"
+                    style={{
+                      width: "30%",
+                      backgroundColor: "rgb(43, 155, 180)",
+                    }}
+                    onClick={() => handleSubmitEdit(editProductData?.MASP)}
+                  >
+                    Lưu thông tin
+                  </Button>
+                  <Button
+                    type="button"
+                    className="btn  mt-3 ml-3"
+                    style={{
+                      width: "30%",
+                      backgroundColor: "rgb(43, 155, 180)",
+                    }}
+                    onClick={handleClose}
+                  >
+                    Hủy
+                  </Button>
+                </Row>
                 {/* Thêm các trường thông tin sản phẩm khác tương tự */}
               </form>
             )}
@@ -530,20 +532,28 @@ export default function ProductListPage() {
                   />
                 </Col>
               </Row>
-              <Row>
+              <Row style={{ display: "flex", justifyContent: "space-around" }}>
                 <Button
                   type="button"
                   className="btn btn-secondary mt-3"
                   onClick={handleSubmit}
+                  style={{
+                    width: "30%",
+                    backgroundColor: "rgb(43, 155, 180)",
+                  }}
                 >
-                  <FontAwesomeIcon icon={faSave} /> Lưu thông tin
+                  Lưu thông tin
                 </Button>
                 <Button
                   type="button"
                   className="btn btn-secondary mt-3 ml-3"
+                  style={{
+                    width: "30%",
+                    backgroundColor: "rgb(43, 155, 180)",
+                  }}
                   onClick={handleClose}
                 >
-                  &times; Hủy
+                  Hủy
                 </Button>
               </Row>
             </form>
@@ -604,7 +614,10 @@ export default function ProductListPage() {
               </form>
             </div>
             <div className="control-product">
-              <div className="mt-3 control-product-table shadow-sm p-3 mb-5 bg-white rounded">
+              <div
+                className="mt-3 control-product-table shadow-sm p-3 mb-5 bg-white rounded"
+                style={{ margin: "0px 10px" }}
+              >
                 <div className="item-header">
                   <h2>Danh sách sản phẩm</h2>
                   <div className="item-search">

@@ -534,9 +534,19 @@ tr {
   color: white;
 }
 
-.slider-image {
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 300px; */
+.custom-button {
+  background-color: white;
+  border: 1px solid #28a745; /* Màu viền success */
+  color: #28a745; /* Màu chữ success */
+  transition: background-color 0.3s; /* Hiệu ứng chuyển đổi màu nền */
+
+  /* Khi hover, thay đổi màu nền thành màu success */
+  &:hover {
+    background-color: #28a745;
+    color: white; /* Màu chữ trắng khi hover */
+  }
+}
+
+.btn-duyet {
+  border: 1px solid #2c734a;
 }

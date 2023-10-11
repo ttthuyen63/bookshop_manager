@@ -34,7 +34,6 @@ export default function OrderPage() {
   const [isLoading, setisLoading] = useState(true);
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
 
-  console.log("orderState...", orderState);
   const orderList = useSelector((state) => state.orderReducer);
 
   const queryParams = new URLSearchParams(window.location.search);
@@ -46,7 +45,6 @@ export default function OrderPage() {
     try {
       const response = await customAxios.get("/Book/GetBill/getAllBill.php");
       setorderState(response?.data?.result);
-      console.log("orderState", orderState);
     } catch (error) {
       console.error(error);
     }
@@ -68,12 +66,10 @@ export default function OrderPage() {
       setisLoading(false);
     }
   };
-  console.log("orderDetail", orderDetail);
 
   useEffect(() => {
     if (orderDetail && !isLoadingDetail) {
       // Do something with editProductData here
-      console.log("editProductData updated", orderDetail);
       // Khai báo các xử lý cần thực hiện sau khi cập nhật editProductData ở đây
     }
   }, [orderDetail, isLoadingDetail]);
@@ -111,15 +107,6 @@ export default function OrderPage() {
     }
   };
 
-  console.log("test", orderState);
-
-  const handleEdit = (item) => {
-    console.log("item...", item);
-    navigate("/editorder/" + item?.id, {
-      state: item,
-    });
-  };
-
   const handleClose = () => {
     setshowDel(false);
   };
@@ -142,14 +129,12 @@ export default function OrderPage() {
   const handleChangeSearch = (e) => {
     const query = e.target.value;
     var searchList = [...orderState];
-    console.log("seacrh", searchList);
 
     searchList = searchList?.filter((item) => {
       return item?.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     });
     setSearch(searchList);
     setShow(true);
-    console.log("seacrh", searchList);
   };
   function getFilterList() {
     if (!filterorder) {
@@ -353,7 +338,10 @@ export default function OrderPage() {
               </div>
             </div>
             <div className="control-order">
-              <div className="mt-3 control-order-table shadow-sm p-3 mb-5 bg-white rounded">
+              <div
+                className="mt-3 control-order-table shadow-sm p-3 mb-5 bg-white rounded"
+                style={{ margin: "0px 10px" }}
+              >
                 <div className="item-header">
                   <h2>Danh sách đơn đặt</h2>
                   <div className="item-search">
@@ -402,9 +390,8 @@ export default function OrderPage() {
                             {item?.STATUS == "0" || item?.STATUS == 2 ? (
                               <button
                                 type="button"
-                                className="btn btn-xs"
+                                className="btn btn-secondary btn-xs"
                                 data-toggle="modal"
-                                // data-target="#delModal"
                                 onClick={() => handleConfirmBill(item?.MAHD)}
                               >
                                 <span
@@ -419,7 +406,7 @@ export default function OrderPage() {
                             ) : (
                               <button
                                 type="button"
-                                className="btn btn-xs"
+                                className="btn btn-secondary btn-xs"
                                 data-toggle="modal"
                                 disabled
                                 // data-target="#delModal"
@@ -440,7 +427,7 @@ export default function OrderPage() {
                             {item?.STATUS == 2 ? (
                               <button
                                 type="button"
-                                className="btn btn-xs"
+                                className="btn btn-secondary btn-xs"
                                 // data-toggle="modal"
                                 disabled
                                 // data-target="#delModal"
@@ -458,7 +445,7 @@ export default function OrderPage() {
                             ) : (
                               <button
                                 type="button"
-                                className="btn btn-xs"
+                                className="btn btn-secondary btn-xs"
                                 // data-toggle="modal"
                                 disabled
                                 // data-target="#delModal"
@@ -522,9 +509,8 @@ export default function OrderPage() {
                             {item?.STATUS == "0" || item?.STATUS == 2 ? (
                               <button
                                 type="button"
-                                className="btn btn-xs"
+                                className="btn btn-secondary btn-xs"
                                 data-toggle="modal"
-                                // data-target="#delModal"
                                 onClick={() => handleConfirmBill(item?.MAHD)}
                               >
                                 <span
@@ -539,7 +525,7 @@ export default function OrderPage() {
                             ) : (
                               <button
                                 type="button"
-                                className="btn btn-xs"
+                                className="btn btn-secondary btn-xs"
                                 data-toggle="modal"
                                 disabled
                                 // data-target="#delModal"
@@ -560,7 +546,7 @@ export default function OrderPage() {
                             {item?.STATUS == 2 ? (
                               <button
                                 type="button"
-                                className="btn btn-xs"
+                                className="btn btn-secondary btn-xs"
                                 // data-toggle="modal"
                                 disabled
                                 // data-target="#delModal"
@@ -578,7 +564,7 @@ export default function OrderPage() {
                             ) : (
                               <button
                                 type="button"
-                                className="btn btn-xs"
+                                className="btn btn-secondary btn-xs"
                                 // data-toggle="modal"
                                 disabled
                                 // data-target="#delModal"
