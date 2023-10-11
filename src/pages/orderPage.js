@@ -84,6 +84,7 @@ export default function OrderPage() {
         "/Book/GetBill/updateStatusBill.php",
         formData
       );
+      window.location.reload();
       setorderDetail();
       console.log(JSON.stringify(response.data));
     } catch (error) {
@@ -100,6 +101,7 @@ export default function OrderPage() {
         "/Book/GetBill/updateStatusBill.php",
         formData
       );
+      window.location.reload();
       setorderDetail();
       console.log(JSON.stringify(response.data));
     } catch (error) {

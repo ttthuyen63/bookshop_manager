@@ -654,7 +654,7 @@ export default function ProductListPage() {
                           <td>
                             <img
                               src={item?.IMAGE}
-                              style={{ height: "50px", width: "50px" }}
+                              style={{ height: "90px", width: "90px" }}
                             />
                           </td>
                           <td>{item?.MASP}</td>
