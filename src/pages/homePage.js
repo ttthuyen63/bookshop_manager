@@ -107,13 +107,13 @@ export default function HomePage() {
           <div className="content-header">
             <h5 className="content-account">
               <Button
-                className="btn-login"
+                className="btn-login btn-success"
                 onClick={() => {
                   dispatch(logout());
                   navigate("/");
                 }}
               >
-                Thoát
+                Đăng xuất
               </Button>
             </h5>
           </div>

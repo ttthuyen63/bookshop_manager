@@ -36,6 +36,7 @@ import { useRef } from "react";
 import FileResizer from "react-image-file-resizer";
 import axios from "axios";
 import Typeproduct from "../components/TypeProduct";
+import TypeAuthor from "../components/TypeAuthor";
 
 export default function ProductListPage() {
   const [productState, setproductState] = useState(null);
@@ -52,11 +53,12 @@ export default function ProductListPage() {
   const [editProductData, setEditProductData] = useState(null);
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null); // State để lưu giá trị đã chọn
+  const [selectedOptionAuthor, setSelectedOptionAuthor] = useState(null); // State để lưu giá trị đã chọn
   const GIAMGIARef = useRef(null);
   const TENSPRef = useRef(null);
-  const KICHCORef = useRef(null);
+  const SOLUONGRef = useRef(null);
   const GIABANRef = useRef(null);
-  const MOTASPRef = useRef(null);
+  const MOTARef = useRef(null);
   const queryParams = new URLSearchParams(window.location.search);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -64,7 +66,7 @@ export default function ProductListPage() {
   }, []);
   const getproductApi = async () => {
     try {
-      const res = await customAxios.get("/Product/GetProductList/read.php");
+      const res = await customAxios.get("/Book/GetProductList/read.php");
       dispatch(addListproduct(res?.data));
       setproductState(res?.data?.data);
     } catch (error) {
@@ -74,14 +76,27 @@ export default function ProductListPage() {
   console.log("product,,,,", productState);
 
   const options = [
-    { value: "1", label: "Áo đội tuyển" },
-    { value: "2", label: "Áo CLB" },
-    { value: "3", label: "Áo thể thao trơn" },
-    { value: "4", label: "Giày đá bóng" },
+    { value: 1, label: "Sách văn học" },
+    { value: 2, label: "Sách kĩ năng sống" },
+    { value: 3, label: "Sách lịch sử" },
+    { value: 4, label: "Sách tâm lý" },
+    { value: 5, label: "Sách giáo khoa" },
+    { value: 6, label: "Truyện tranh" },
+  ];
+  const optionsAuthor = [
+    { value: 1, label: "Dostoevsky" },
+    { value: 2, label: "Đoàn Giỏi" },
+    { value: 3, label: "Nguyễn Bảo Trung" },
+    { value: 4, label: "Fujiko F Fujio" },
+    { value: 5, label: "Brian Tracy" },
+    { value: 6, label: "Nguyễn Nhật Ánh" },
   ];
 
   const handleSelectChange = (selectedOption) => {
     setSelectedOption(selectedOption); // Cập nhật giá trị đã chọn khi người dùng thay đổi
+  };
+  const handleSelectChangeAuthor = (selectedOptionAuthor) => {
+    setSelectedOptionAuthor(selectedOptionAuthor); // Cập nhật giá trị đã chọn khi người dùng thay đổi
   };
 
   const handleImageChange = (e) => {
@@ -91,12 +106,13 @@ export default function ProductListPage() {
       setSelectedImage(imageUrl); // Cập nhật state để hiển thị hình ảnh đã chọn
     }
   };
+  console.log("selectedOption", selectedOption);
 
   const handleEdit = async (item) => {
     try {
       setIsLoadingDetail(true); // Bắt đầu tải dữ liệu
       const detailData = await customAxios.get(
-        `/Product/GetProductList/web.php?MASP=${item}`
+        `/Book/GetProductList/web.php?MASP=${item}`
       );
       setEditProductData(detailData?.data);
       setmodalEdit(true);
@@ -113,6 +129,7 @@ export default function ProductListPage() {
       // Khai báo các xử lý cần thực hiện sau khi cập nhật editProductData ở đây
     }
   }, [editProductData, isLoadingDetail]);
+  console.log("editProductData", editProductData);
 
   const handleClose = () => {
     setshowDel(false);
@@ -127,7 +144,7 @@ export default function ProductListPage() {
   const handleDelete = async (item) => {
     try {
       await customAxios.delete(
-        `/Product/GetProductList/web.php?MASP=${deleteCode}`
+        `/Book/GetProductList/web.php?MASP=${deleteCode}`
       );
       getproductApi();
     } catch (error) {
@@ -169,14 +186,15 @@ export default function ProductListPage() {
     form.append("name", TENSPRef.current.value);
     form.append("discount", GIAMGIARef.current.value);
     form.append("type", selectedOption?.value);
-    form.append("description", MOTASPRef.current.value);
-    form.append("size", KICHCORef.current.value);
+    form.append("description", MOTARef.current.value);
+    form.append("quantity", SOLUONGRef.current.value);
     form.append("price", GIABANRef.current.value);
     form.append("status", 0);
     form.append("image", `${selectedImage}`);
+    form.append("author_id", selectedOptionAuthor?.value);
 
     customAxios
-      .post("/Product/GetProductList/addProduct.php", form, {
+      .post("/Book/GetProductList/addProduct.php", form, {
         headers: {
           "Content-Type": `multipart/form-data; boundary=${form._boundary}`,
         },
@@ -207,11 +225,12 @@ export default function ProductListPage() {
       MASP: item,
       TENSP: editProductData.TENSP, // Sử dụng giá trị ban đầu nếu không có giá trị mới
       LOAISP: editProductData.LOAISP,
-      MOTASP: editProductData.MOTASP,
+      MATG: editProductData.MATG,
+      MOTA: editProductData.MOTA,
       GIABAN: editProductData.GIABAN,
       IMAGE: editProductData.IMAGE,
       TRANGTHAI: editProductData.TRANGTHAI,
-      KICHCO: editProductData.KICHCO,
+      SOLUONG: editProductData.SOLUONG,
     };
 
     const config = {
@@ -222,7 +241,7 @@ export default function ProductListPage() {
 
     try {
       const response = await customAxios.put(
-        `/Product/GetProductList/web.php?MASP=${item}`,
+        `/Book/GetProductList/web.php?MASP=${item}`,
         dataToSend,
         config
       );
@@ -330,7 +349,7 @@ export default function ProductListPage() {
                   </Col>
                   <Col lg={6}>
                     <Row className="form-group">
-                      <label htmlFor="TENSP">Tên sản phẩm:</label>
+                      <label>Tên sản phẩm:</label>
                       <input
                         type="text"
                         className="form-control"
@@ -345,7 +364,22 @@ export default function ProductListPage() {
                       />
                     </Row>
                     <Row className="form-group">
-                      <label htmlFor="LOAISP">Loại sản phẩm:</label>
+                      <label>Tác giả:</label>
+                      <Select
+                        options={optionsAuthor}
+                        value={optionsAuthor.find(
+                          (option) => option.value === editProductData.MATG
+                        )}
+                        onChange={(selectedOptionAuthor) => {
+                          setEditProductData({
+                            ...editProductData,
+                            MATG: selectedOptionAuthor.value,
+                          });
+                        }}
+                      />
+                    </Row>
+                    <Row className="form-group">
+                      <label>Phân loại:</label>
                       <Select
                         options={options}
                         value={options.find(
@@ -360,22 +394,22 @@ export default function ProductListPage() {
                       />
                     </Row>
                     <Row className="form-group">
-                      <label htmlFor="LOAISP">Mô tả sản phẩm:</label>
+                      <label>Mô tả sản phẩm:</label>
                       <input
                         type="text"
                         className="form-control"
                         id="LOAISP"
-                        value={editProductData.MOTASP}
+                        value={editProductData.MOTA}
                         onChange={(e) =>
                           setEditProductData({
                             ...editProductData,
-                            MOTASP: e.target.value,
+                            MOTA: e.target.value,
                           })
                         }
                       />
                     </Row>
                     <Row className="form-group">
-                      <label htmlFor="LOAISP">Giá bán:</label>
+                      <label>Giá bán:</label>
                       <input
                         type="number"
                         className="form-control"
@@ -390,16 +424,16 @@ export default function ProductListPage() {
                       />
                     </Row>
                     <Row className="form-group">
-                      <label htmlFor="LOAISP">Kích cỡ:</label>
+                      <label>Số lượng:</label>
                       <input
-                        type="text"
+                        type="number"
                         className="form-control"
                         id="LOAISP"
-                        value={editProductData.KICHCO}
+                        value={editProductData.SOLUONG}
                         onChange={(e) =>
                           setEditProductData({
                             ...editProductData,
-                            KICHCO: e.target.value,
+                            SOLUONG: e.target.value,
                           })
                         }
                       />
@@ -439,21 +473,35 @@ export default function ProductListPage() {
                   <input ref={TENSPRef} type="text" className="form-control" />
                 </Col>
                 <Col lg={12}>
-                  <label>Loại sản phẩm</label>
+                  <label>Tác giả</label>
+                  <Select
+                    value={selectedOptionAuthor}
+                    onChange={handleSelectChangeAuthor}
+                    options={optionsAuthor}
+                    placeholder="Tác giả"
+                  />
+                </Col>
+                <Col lg={12}>
+                  <label>Phân loại</label>
                   <Select
                     value={selectedOption}
                     onChange={handleSelectChange}
                     options={options}
-                    placeholder="Chọn loại sản phẩm"
+                    placeholder="Chọn thể loại"
+                  />
+                </Col>
+
+                <Col lg={12}>
+                  <label>Số lượng</label>
+                  <input
+                    ref={SOLUONGRef}
+                    type="number"
+                    className="form-control"
                   />
                 </Col>
                 <Col lg={12}>
-                  <label>Kích cỡ</label>
-                  <input ref={KICHCORef} type="text" className="form-control" />
-                </Col>
-                <Col lg={12}>
                   <label>Mô tả</label>
-                  <input ref={MOTASPRef} type="text" className="form-control" />
+                  <input ref={MOTARef} type="text" className="form-control" />
                 </Col>
                 <Col lg={12}>
                   <label>Giá bán</label>
@@ -510,6 +558,7 @@ export default function ProductListPage() {
             <div className="content-header">
               <h5 className="content-account">
                 <Button
+                  className="btn-login btn-success"
                   onClick={() => {
                     dispatch(logout());
                     navigate("/");
@@ -537,10 +586,12 @@ export default function ProductListPage() {
                     Lọc theo danh mục
                   </option>
                   <option value="">Tất cả</option>
-                  <option value="1">Áo đội tuyển</option>
-                  <option value="2">Áo CLB</option>
-                  <option value="3">Áo thể thao trơn</option>
-                  <option value="4">Giày đá bóng</option>
+                  <option value="1">Sách văn học</option>
+                  <option value="2">Sách kĩ năng sống</option>
+                  <option value="3">Sách lịch sử</option>
+                  <option value="4">Sách tâm lý</option>
+                  <option value="5">Sách giáo khoa</option>
+                  <option value="6">Truyện tranh</option>
                   {/* {productState?.map((item) => (
                     <option value={item?.LOAISP}>
                       <TypeProduct item={item?.LOAISP} />
@@ -571,8 +622,9 @@ export default function ProductListPage() {
                       <th scope="col">Hình ảnh</th>
                       <th scope="col">Mã sản phẩm</th>
                       <th scope="col">Tên sản phẩm</th>
-                      <th scope="col">Loại sản phẩm</th>
-                      <th scope="col">Kích cỡ</th>
+                      <th scope="col">Tác giả</th>
+                      <th scope="col">Phân loại</th>
+                      <th scope="col">Số lượng</th>
                       <th scope="col">Giá</th>
                       {/* <th scope="col">Xem thêm</th> */}
                       <th scope="col">Thao tác</th>
@@ -593,9 +645,12 @@ export default function ProductListPage() {
                           <td>{item?.TENSP}</td>
                           {/* <td>{item?.LOAISP}</td> */}
                           <td>
+                            <TypeAuthor item={item?.MATG} />
+                          </td>
+                          <td>
                             <TypeProduct item={item?.LOAISP} />
                           </td>
-                          <td>{item?.KICHCO}</td>
+                          <td>{item?.SOLUONG}</td>
                           <td>{currencyFormat(item?.GIABAN)}</td>
                           <td>
                             <button
@@ -654,9 +709,12 @@ export default function ProductListPage() {
                           <td>{item?.TENSP}</td>
                           {/* <td>{item?.LOAISP}</td> */}
                           <td>
+                            <TypeAuthor item={item?.MATG} />
+                          </td>
+                          <td>
                             <TypeProduct item={item?.LOAISP} />
                           </td>
-                          <td>{item?.KICHCO}</td>
+                          <td>{item?.SOLUONG}</td>
                           <td>{currencyFormat(item?.GIABAN)}</td>
                           <td>
                             <button

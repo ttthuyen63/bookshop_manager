@@ -329,6 +329,7 @@ export default function OrderPage() {
             <div className="content-header">
               <h5 className="content-account">
                 <Button
+                  className="btn-login btn-success"
                   onClick={() => {
                     dispatch(logout());
                     navigate("/");

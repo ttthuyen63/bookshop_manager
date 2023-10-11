@@ -6,7 +6,8 @@
   display: flex;
   justify-content: center;
   position: sticky;
-  background-image: linear-gradient(#015c92, #2d83b5, #89ccf6);
+  background-image: linear-gradient(#2c734a, #2c734a, #237b48);
+  /* background-image: linear-gradient(#2c734a, #2c734a, #237b48); */
 }
 .sidebar-logo-container {
   display: "flex";
@@ -14,7 +15,7 @@
 }
 .sidebar-logo-container img {
   width: 100%;
-  padding: 1em 4em;
+  padding: 1em;
   text-align: center;
 }
 .sidebar-container {
@@ -39,7 +40,7 @@
   cursor: pointer;
 }
 .sidebar-item:hover {
-  background-color: #004b77;
+  background-color: rgba(54, 174, 90, 0.6);
 }
 .sidebar-item-active {
   padding: 1.5em;
@@ -50,7 +51,7 @@
   text-decoration: none;
   align-items: center;
   justify-content: flex-start;
-  background-color: #004b77;
+  background-color: rgb(22, 56, 25);
   cursor: pointer;
 }
 .sidebar-item-icon {

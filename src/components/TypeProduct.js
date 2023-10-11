@@ -3,13 +3,18 @@ import React from "react";
 const Typeproduct = (props) => {
   const { item } = props;
   if (item == 1) {
-    return <span>Áo đội tuyển</span>;
+    return <span>Sách văn học</span>;
   } else if (item == 2) {
-    return <span>Áo CLB</span>;
+    return <span>Sách kĩ năng sống</span>;
   } else if (item == 3) {
-    return <span>Áo thể thao trơn</span>;
+    return <span>Sách lịch sử</span>;
   } else if (item == 4) {
-    return <span>Giày đá bóng</span>;
+    return <span>Sách tâm lý</span>;
+  } else if (item == 5) {
+    return <span>Sách giáo khoa</span>;
+  } else if (item == 6) {
+    return <span>Truyện tranh</span>;
   }
 };
+
 export default Typeproduct;

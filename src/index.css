@@ -419,14 +419,14 @@ i {
   font-weight: 700;
   border-radius: 8px;
   text-transform: uppercase;
-  border: 1px solid #015c92;
-  background-color: #015c92;
+  border: 1px solid #2c734a;
+  background-color: #2c734a;
   text-decoration: none;
 }
 
 .btn-new:hover {
-  color: #015c92;
-  border: 1px solid #015c92;
+  color: #2c734a;
+  border: 1px solid #2c734a;
   background-color: #f0f2f5;
 }
 
