@@ -20,6 +20,7 @@ import {
   ModalBody,
 } from "reactstrap";
 import Typeproduct from "../components/TypeProduct";
+import TypeAuthor from "../components/TypeAuthor";
 export default function OrderPage() {
   const [orderState, setorderState] = useState(null);
   const [orderDetail, setorderDetail] = useState(null);
@@ -43,7 +44,7 @@ export default function OrderPage() {
   }, []);
   const getorderApi = async () => {
     try {
-      const response = await customAxios.get("/Product/GetBill/getAllBill.php");
+      const response = await customAxios.get("/Book/GetBill/getAllBill.php");
       setorderState(response?.data?.result);
       console.log("orderState", orderState);
     } catch (error) {
@@ -54,7 +55,7 @@ export default function OrderPage() {
     try {
       setIsLoadingDetail(true);
       const response = await customAxios.get(
-        `/Product/GetBill/getBillByMahd.php?userId=${id}`
+        `/Book/GetBill/getBillByMahd.php?mahd=${id}`
       );
       setorderDetail(response?.data?.result);
       setmodelDetail(true);
@@ -67,6 +68,7 @@ export default function OrderPage() {
       setisLoading(false);
     }
   };
+  console.log("orderDetail", orderDetail);
 
   useEffect(() => {
     if (orderDetail && !isLoadingDetail) {
@@ -83,7 +85,7 @@ export default function OrderPage() {
       formData.append("STATUS", "2");
 
       const response = await customAxios.post(
-        "/Product/GetBill/updateStatusBill.php",
+        "/Book/GetBill/updateStatusBill.php",
         formData
       );
       setorderDetail();
@@ -99,7 +101,7 @@ export default function OrderPage() {
       formData.append("STATUS", "4");
 
       const response = await customAxios.post(
-        "/Product/GetBill/updateStatusBill.php",
+        "/Book/GetBill/updateStatusBill.php",
         formData
       );
       setorderDetail();
@@ -282,8 +284,8 @@ export default function OrderPage() {
                             <th scope="col">Hình ảnh</th>
                             <th scope="col">Mã sản phẩm</th>
                             <th scope="col">Tên sản phẩm</th>
-                            <th scope="col">Loại sản phẩm</th>
-                            <th scope="col">Kích cỡ</th>
+                            <th scope="col">Tác giả</th>
+                            <th scope="col">Phân loại</th>
                             <th scope="col">Giá</th>
                             {/* <th scope="col">Xem thêm</th> */}
                             <th scope="col">Số lượng</th>
@@ -300,10 +302,11 @@ export default function OrderPage() {
                               </td>
                               <td>{item?.MASP}</td>
                               <td>{item?.TENSP}</td>
+                              <td>{item?.TENTG}</td>
                               <td>
                                 <Typeproduct item={item?.LOAISP} />
                               </td>
-                              <td>{item?.KICHCO}</td>
+
                               <td>{currencyFormat(item?.GIABAN)}</td>
                               <td>{item?.SOLUONG}</td>
                             </tr>
@@ -380,10 +383,10 @@ export default function OrderPage() {
                     <tbody id="myTable">
                       {orderState?.map((item, index) => (
                         <tr>
-                          <td>HĐ{item?.MAHD}</td>
-                          <td onClick={() => handleDetail(item?.MAKH)}>
-                            {item?.MAKH}
+                          <td onClick={() => handleDetail(item?.MAHD)}>
+                            HĐ{item?.MAHD}
                           </td>
+                          <td>{item?.MAKH}</td>
                           <td>{item?.TENKH}</td>
                           <td>{item?.NGAYLAP_HD}</td>
                           <td>{item?.PHONE}</td>

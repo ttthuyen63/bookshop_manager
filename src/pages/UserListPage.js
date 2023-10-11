@@ -65,14 +65,11 @@ export default function UserListPage() {
   }, []);
   const getuserApi = async () => {
     try {
-      const response = await customAxios.get(
-        "/Product/GetUserList/ListUser.php",
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
+      const response = await customAxios.get("/Book/GetUserList/ListUser.php", {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
       dispatch(addListuser(response?.data));
       setuserState(response?.data?.data);
       console.log(userState);
