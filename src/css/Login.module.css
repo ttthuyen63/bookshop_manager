@@ -1,0 +1,39 @@
+/* 
+.loginTitle {
+  margin-top: 60px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: rgb(19, 19, 19);
+  font-weight: 700;
+}
+
+.loginForm {
+  width: 400px;
+  box-sizing: border-box;
+  padding: 30px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 0px 9px 0px #88888893;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.btn {
+  margin-left: 50%;
+  transform: translateX(-50%);
+} */
+
+.divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: #eee;
+}
+.h-custom {
+height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+.h-custom {
+height: 100%;
+}
+}
