@@ -259,7 +259,11 @@ export default function OrderPage() {
                     </Col>
                     <Col lg={6}>
                       <Row className="form-group">
-                        Ngày mua hàng: {orderDetail[0]?.NGAYLAP_HD}
+                        Ngày mua hàng:{" "}
+                        {format(
+                          new Date(orderDetail[0]?.NGAYLAP_HD),
+                          "dd/MM/yyyy"
+                        )}
                       </Row>
                       <Row className="form-group">
                         Ghi chú: {orderDetail[0]?.NOTE}
@@ -412,8 +416,11 @@ export default function OrderPage() {
                           </td>
                           <td>{item?.MAKH}</td>
                           <td>{item?.TENKH}</td>
-                          <td>{item?.NGAYLAP_HD}</td>
-                          {/* <td>{formattedDate} </td> */}
+                          {/* <td>{item?.NGAYLAP_HD}</td> */}
+                          <td>
+                            {format(new Date(item?.NGAYLAP_HD), "dd/MM/yyyy")}
+                          </td>
+
                           <td>{item?.PHONE}</td>
                           <td>{currencyFormat(item?.TONGTIEN)}</td>
                           {/* <td>{item?.start_date}</td> */}
@@ -530,7 +537,11 @@ export default function OrderPage() {
                           </td>
                           <td>{item?.MAKH}</td>
                           <td>{item?.TENKH}</td>
-                          <td>{item?.NGAYLAP_HD}</td>
+                          {/* <td>{item?.NGAYLAP_HD}</td> */}
+                          <td>
+                            {format(new Date(item?.NGAYLAP_HD), "dd/MM/yyyy")}
+                          </td>
+
                           <td>{item?.PHONE}</td>
                           <td>{currencyFormat(item?.TONGTIEN)}</td>
                           {/* <td>{item?.start_date}</td> */}
