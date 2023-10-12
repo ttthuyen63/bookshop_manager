@@ -165,6 +165,10 @@ export default function OrderPage() {
 
   console.log("order", orderState);
 
+  // const originalDate = new Date(orderState?.NGAYLAP_HD);
+  // const formattedDate = format(originalDate, "dd/MM/yyyy");
+  // console.log("originalDate", originalDate);
+
   return (
     <div>
       {show === false ? (
@@ -304,6 +308,10 @@ export default function OrderPage() {
                         </tbody>
                       </table>
                     </Col>
+
+                    <Col>
+                      Trạng thái: <StatusBill item={orderDetail[0]?.STATUS} />
+                    </Col>
                   </Row>
                 </form>
               </ModalBody>
@@ -384,6 +392,7 @@ export default function OrderPage() {
                           <td>{item?.MAKH}</td>
                           <td>{item?.TENKH}</td>
                           <td>{item?.NGAYLAP_HD}</td>
+                          {/* <td>{formattedDate} </td> */}
                           <td>{item?.PHONE}</td>
                           <td>{currencyFormat(item?.TONGTIEN)}</td>
                           {/* <td>{item?.start_date}</td> */}
