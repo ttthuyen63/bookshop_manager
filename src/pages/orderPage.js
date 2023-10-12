@@ -134,7 +134,7 @@ export default function OrderPage() {
     var searchList = [...orderState];
 
     searchList = searchList?.filter((item) => {
-      return item?.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      return item?.TENKH.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     });
     setSearch(searchList);
     setShow(true);
@@ -143,7 +143,7 @@ export default function OrderPage() {
     if (!filterorder) {
       return orderState;
     }
-    return orderState?.filter((item) => item?.name === filterorder);
+    return orderState?.filter((item) => item?.STATUS === filterorder);
   }
 
   var filterList = useMemo(getFilterList, [filterorder, orderState]);
@@ -163,7 +163,7 @@ export default function OrderPage() {
     setShow((prevShow) => !prevShow);
   };
 
-  console.log("order", orderState);
+  console.log("filterList", filterList);
 
   // const originalDate = new Date(orderState?.NGAYLAP_HD);
   // const formattedDate = format(originalDate, "dd/MM/yyyy");
@@ -344,11 +344,32 @@ export default function OrderPage() {
             </div>
 
             <div className="begin-item">
-              <div className="begin-item">
-                <button className="btn-new" type="button" onClick={handleSort}>
-                  Mới nhất
-                </button>
-              </div>
+              {/* <div className="begin-item"> */}
+              <button className="btn-new" type="button" onClick={handleSort}>
+                Mới nhất
+              </button>
+              <form className="form-inline w-50">
+                <select
+                  className="browser-default custom-select mb-2 mr-3"
+                  onChange={handleChange}
+                >
+                  <option selected disabled>
+                    Lọc theo danh mục
+                  </option>
+                  <option value="">Tất cả</option>
+                  <option value="0">Chờ xác nhận</option>
+                  <option value="1">Đã xác nhận</option>
+                  <option value="2">Đang giao</option>
+                  <option value="3">Đã nhận hàng</option>
+                  <option value="4">Đã hủy</option>
+                  {/* {productState?.map((item) => (
+                    <option value={item?.LOAISP}>
+                      <TypeProduct item={item?.LOAISP} />
+                    </option>
+                  ))} */}
+                </select>
+              </form>
+              {/* </div> */}
             </div>
             <div className="control-order">
               <div
@@ -384,7 +405,7 @@ export default function OrderPage() {
                   {/* ----------------------------------------- */}
                   {show === false ? (
                     <tbody id="myTable">
-                      {orderState?.map((item, index) => (
+                      {filterList?.map((item, index) => (
                         <tr>
                           <td onClick={() => handleDetail(item?.MAHD)}>
                             HĐ{item?.MAHD}
