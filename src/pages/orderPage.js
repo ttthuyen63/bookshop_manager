@@ -21,6 +21,8 @@ import {
 } from "reactstrap";
 import Typeproduct from "../components/TypeProduct";
 import TypeAuthor from "../components/TypeAuthor";
+import { format } from "date-fns";
+
 export default function OrderPage() {
   const [orderState, setorderState] = useState(null);
   const [orderDetail, setorderDetail] = useState(null);
@@ -35,7 +37,6 @@ export default function OrderPage() {
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
 
   const orderList = useSelector((state) => state.orderReducer);
-
   const queryParams = new URLSearchParams(window.location.search);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -161,6 +162,8 @@ export default function OrderPage() {
     setSortedOrders(sorted);
     setShow((prevShow) => !prevShow);
   };
+
+  console.log("order", orderState);
 
   return (
     <div>
@@ -389,7 +392,7 @@ export default function OrderPage() {
                             <StatusBill item={item?.STATUS} />
                           </td>
                           <td>
-                            {item?.STATUS == "0" || item?.STATUS == 2 ? (
+                            {item?.STATUS == 0 ? (
                               <button
                                 type="button"
                                 className="btn btn-secondary btn-xs"
@@ -426,13 +429,11 @@ export default function OrderPage() {
                             )}
                           </td>
                           <td>
-                            {item?.STATUS == 2 ? (
+                            {item?.STATUS === 0 ? (
                               <button
                                 type="button"
                                 className="btn btn-secondary btn-xs"
-                                // data-toggle="modal"
-                                disabled
-                                // data-target="#delModal"
+                                // disabled
                                 onClick={() => handleRefuseBill(item?.MAHD)}
                               >
                                 <span
@@ -448,9 +449,9 @@ export default function OrderPage() {
                               <button
                                 type="button"
                                 className="btn btn-secondary btn-xs"
-                                // data-toggle="modal"
+                                data-toggle="modal"
                                 disabled
-                                // data-target="#delModal"
+                                data-target="#delModal"
                                 onClick={() => handleRefuseBill(item?.MAHD)}
                               >
                                 <span
@@ -508,7 +509,7 @@ export default function OrderPage() {
                             <StatusBill item={item?.STATUS} />
                           </td>
                           <td>
-                            {item?.STATUS == "0" || item?.STATUS == 2 ? (
+                            {item?.STATUS == 0 ? (
                               <button
                                 type="button"
                                 className="btn btn-secondary btn-xs"
@@ -545,13 +546,11 @@ export default function OrderPage() {
                             )}
                           </td>
                           <td>
-                            {item?.STATUS == 2 ? (
+                            {item?.STATUS === 0 ? (
                               <button
                                 type="button"
                                 className="btn btn-secondary btn-xs"
-                                // data-toggle="modal"
-                                disabled
-                                // data-target="#delModal"
+                                // disabled
                                 onClick={() => handleRefuseBill(item?.MAHD)}
                               >
                                 <span
@@ -567,9 +566,9 @@ export default function OrderPage() {
                               <button
                                 type="button"
                                 className="btn btn-secondary btn-xs"
-                                // data-toggle="modal"
+                                data-toggle="modal"
                                 disabled
-                                // data-target="#delModal"
+                                data-target="#delModal"
                                 onClick={() => handleRefuseBill(item?.MAHD)}
                               >
                                 <span
